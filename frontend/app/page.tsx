@@ -1,11 +1,11 @@
-import AnimeGrid from "@/components/anime-grid";
-import { Button } from "@/components/ui/button";
+import BannerSlider from "@/components/banner-slider"
+import AnimeGrid from "@/components/anime-grid"
 
-export default function Home() {
+export default function HomePage() {
   return (
-  <div>
-      <h1>Hello World</h1>
+    <div className="min-h-screen bg-gray-900">
+      <BannerSlider />
       <AnimeGrid />
-  </div>
-  );
+    </div>
+  )
 }
