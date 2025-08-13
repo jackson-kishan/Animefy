@@ -1,3 +1,5 @@
+"use client"
+
 import EnhancedVideoPlayer from "@/components/enhanced-video-player"
 import EpisodeList from "@/components/episode-list"
 import BookmarkManager from "@/components/bookmark-manager"
@@ -31,6 +33,11 @@ const animeData = {
 export default function WatchPage({ params }: { params: { id: string } }) {
   const animeId = Number.parseInt(params.id)
   const anime = animeData[animeId as keyof typeof animeData]
+
+  console.log('====================================');
+  console.log('animeId', animeId);
+  console.log('====================================');
+  console.log(anime.videoUrl);
 
   if (!anime) {
     notFound()
@@ -88,14 +95,14 @@ export default function WatchPage({ params }: { params: { id: string } }) {
           </div>
 
           <div className="lg:col-span-1">
-            <BookmarkManager
+            {/* <BookmarkManager
               animeId={animeId}
               episode={anime.currentEpisode}
               animeTitle={anime.title}
               onJumpToTime={handleJumpToTime}
               currentTime={0} // This should be connected to the video player's current time
               onAddBookmark={handleAddBookmark}
-            />
+            /> */}
           </div>
         </div>
       </div>

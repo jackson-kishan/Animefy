@@ -1,3 +1,5 @@
+"use client"
+
 import BannerSlider from "@/components/banner-slider"
 import AnimeGrid from "@/components/anime-grid"
 
