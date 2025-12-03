@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedInteger('duration_seconds')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->string('thumbnail_path')->nullable();
-            $table->timestamps();
             $table->unique(['season_id','number']);
             $table->timestamps();
         });
