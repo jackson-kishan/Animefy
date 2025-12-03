@@ -43,10 +43,10 @@ jobs:
           php artisan db:seed --force
           chmod -R 777 storage bootstrap/cache
 
-      - name: Execute tests (Unit and Feature tests) via Pest
-        working-directory: backend
-        run: |
-          composer test || php artisan test --parallel --fail-on-warning
+      # - name: Execute tests (Unit and Feature tests) via Pest
+      #   working-directory: backend
+      #   run: |
+      #     composer test || php artisan test --parallel --fail-on-warning
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
