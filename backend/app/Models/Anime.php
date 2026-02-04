@@ -14,8 +14,10 @@ class Anime extends Model
        'title',
        'slug',
        'synopsis',
+       'images',
        'status',
        'year',
+       'rating',
        'genres'
      ];
 
@@ -23,8 +25,8 @@ class Anime extends Model
         'genres' => 'array'
      ];
 
-     public function seasons(): HasMany   
+     public function seasons(): HasMany
      {
-        return $this->hasMany(Seasons::class)->orderBy('number');
+        return $this->hasMany(Season::class)->orderBy('number');
      }
 }

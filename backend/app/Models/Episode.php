@@ -9,20 +9,23 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Episode extends Model
 {
-    
-    protected $fillable = 
-    [
-      "season_id",
-      "number",
-      "title",
-      "description",
-      "duration_seconds",
-      "published_at",
-      "thumbnail_path"
-    ];
-  
+
+    protected $fillable =
+        [
+            "season_id",
+            "number",
+            "title",
+            "description",
+            "duration_seconds",
+            "published_at",
+            "thumbnail_path"
+        ];
+
     protected $casts = [
-      "published_at" => "datetime",
+        "published_at" => "datetime",
+    ];
+    protected $attributes = [
+        "images" => "array",
     ];
 
     public function season(): BelongsTo

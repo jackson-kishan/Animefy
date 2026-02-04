@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Season extends Model
 {
-    protected $table = 
+    protected $fillable =
     [
         "anime_id",
         "number",
