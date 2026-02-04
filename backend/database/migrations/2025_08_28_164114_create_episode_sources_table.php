@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('episode_id')->constrained()->cascadeOnDelete();
             $table->string('type')->default('hls'); // hls | mp4 | dash
             $table->string('quality')->nullable(); // 1080p, 720p, auto
-            $table->string('lang')->nullable(); // "ja", "en"
+            $table->enum('lang', ['ja', 'en'])->nullable();
             $table->string('url'); // HLS .m3u8 or file URL (can be signed later)
             $table->boolean('is_primary')->default(false);
             $table->timestamps();

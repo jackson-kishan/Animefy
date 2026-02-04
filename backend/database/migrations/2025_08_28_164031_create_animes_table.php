@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('images');
             $table->enum('status', ['ongoing', 'completed']);
             $table->unsignedSmallInteger('year')->nullable();
+            $table->decimal('rating', 3, 2)->nullable();
             $table->json('genres')->nullable();
             $table->softDeletes();
             $table->timestamps();
