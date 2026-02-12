@@ -17,7 +17,7 @@ class Season extends Model
         "images"
     ];
 
-    public function Anime(): BelongsTo
+    public function anime(): BelongsTo
     {
         return $this->belongsTo(Anime::class);
     }
