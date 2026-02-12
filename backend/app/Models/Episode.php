@@ -28,6 +28,11 @@ class Episode extends Model
         "images" => "array",
     ];
 
+     public function getVideoUrlAttribute()
+    {
+        return $this->video_path ? asset('storage/'.$this->video_path) : null;
+    }
+
     public function season(): BelongsTo
     {
         return $this->belongsTo(Season::class);
