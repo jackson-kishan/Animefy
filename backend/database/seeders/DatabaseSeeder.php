@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             AnimeSeeder::class,
-            // SeasonSeeder::class,
-            EpisodeSourceSeeder::class,
+            SeasonSeeder::class,
+            EpisodeSeeder::class,
         ]);
     }
 }
