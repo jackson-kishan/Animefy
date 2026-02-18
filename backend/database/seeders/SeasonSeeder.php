@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Anime;
 use App\Models\Episode;
 use App\Models\Season;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SeasonSeeder extends Seeder
@@ -26,7 +25,13 @@ class SeasonSeeder extends Seeder
                 'title' => 'Season 1',
                 'description' => 'Season 1 description',
                 'images' => 'https://example.com/season-1.jpg',
-            ]
+            ],
+            [
+                'number' => 2,
+                'title' => 'Season 2',
+                'description' => 'Season 2 description',
+                'images' => 'https://example.com/season-2.jpg',
+            ],
             ];
 
             foreach($seasons as $season => $seasons_data) {
@@ -38,7 +43,7 @@ class SeasonSeeder extends Seeder
                     'images' => $seasons_data['images'],
                 ]);
 
-                for ($i = 1; $i <= $season['episodes']; $i++) {
+                /* for ($i = 1; $i <= $season['episodes']; $i++) {
                     Episode::create([
                         'season_id' => $season->id,
                         'number' => $i,
@@ -48,7 +53,7 @@ class SeasonSeeder extends Seeder
                         'published_at' => now()->subDays(rand(1, 500)),
                         'thumbnail_path' => 'https://example.com/thumbnail-' . $i . '.jpg',
                     ]);
-                }
+                } */
             }
         }
     }

@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->unsignedInteger('number');
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->json('images')->nullable();
+            $table->text('images')->nullable();
             $table->unique(['anime_id', 'number']);
             $table->timestamps();
         });
