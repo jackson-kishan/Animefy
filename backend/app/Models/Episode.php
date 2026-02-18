@@ -18,16 +18,17 @@ class Episode extends Model
             "description",
             "duration_seconds",
             "published_at",
-            "thumbnail_path"
+            "thumbnail_path",
+            "type",
+            "quality",
+            "lang",
+            "url",
+            "is_primary",
         ];
 
     protected $casts = [
         "published_at" => "datetime",
     ];
-    protected $attributes = [
-        "images" => "array",
-    ];
-
      public function getVideoUrlAttribute()
     {
         return $this->video_path ? asset('storage/'.$this->video_path) : null;
@@ -36,15 +37,5 @@ class Episode extends Model
     public function season(): BelongsTo
     {
         return $this->belongsTo(Season::class);
-    }
-
-    public function sources(): HasMany
-    {
-        return $this->hasMany(EpisodeSource::class);
-    }
-
-    public function PrimarySource(): HasOne
-    {
-        return $this->hasOne(EpisodeSource::class)->where("is_primary", true);
     }
 }
