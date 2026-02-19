@@ -18,7 +18,7 @@ export default function Navbar() {
               <span className="text-white font-bold text-lg">A</span>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              AnimeStream
+              Animefy
             </span>
           </Link>
 
