@@ -15,7 +15,7 @@ class EpisodeController extends Controller
      */
     public function index(Season $season)
     {
-        $episodes = $season->episodes()->with(['primarySource','subtitles'])->paginate(50);
+        $episodes = $season->episodes()->paginate(50);
         return EpisodeResource::collection($episodes);
     }
 
