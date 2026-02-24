@@ -27,6 +27,7 @@ class Anime extends Model
 
      public function seasons(): HasMany
      {
-        return $this->hasMany(Season::class)->orderBy('number');
+        return $this->hasMany(Season::class);
+        // ->orderBy('number')
      }
 }
