@@ -33,8 +33,11 @@ export default function Navbar() {
             <Link href="/popular" className="text-gray-300 hover:text-white transition-colors duration-200">
               Popular
             </Link>
-            <Link href="/genres" className="text-gray-300 hover:text-white transition-colors duration-200">
-              Genres
+            <Link href="/news" className="text-gray-300 hover:text-white transition-colors duration-200">
+              News
+            </Link>
+            <Link href="/community" className="text-gray-300 hover:text-white transition-colors duration-200">
+              Community
             </Link>
           </div>
 
