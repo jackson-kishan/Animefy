@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AnimeRequest;
 use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 class AnimeController extends Controller
 {
@@ -16,17 +17,19 @@ class AnimeController extends Controller
      */
     public function index(Request $request)
     {
-        $q = $request->string('q');
-        $status = $request->string('status');
-        $year = $request->integer('year');
+        // $q = $request->string('q');
+        // $status = $request->string('status');
+        // $year = $request->integer('year');
 
-        $animes = Anime::query()
-            ->when($q, fn($x) => $x->where('title','like',"%{$q}%"))
-            ->when($status, fn($x) => $x->where('status', $status))
-            ->when($year, fn($x) => $x->where('year', $year))
-            ->withCount('seasons')
-            ->latest()
-            ->paginate(20);
+        // $animes = Anime::query()
+        //     ->when($q, fn($x) => $x->where('title','like',"%{$q}%"))
+        //     ->when($status, fn($x) => $x->where('status', $status))
+        //     ->when($year, fn($x) => $x->where('year', $year))
+        //     ->withCount('seasons')
+        //     ->latest()
+        //     ->paginate(20);
+
+        $animes = Anime::withCount('seasons')->latest()->paginate(20);
 
         return AnimeResource::collection($animes);
     }
@@ -42,24 +45,25 @@ class AnimeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AnimeRequest $request)
     {
-        $data = $request->validate([
-            'title' => ['required','string','max:255'],
-            'slug' => ['nullable','string','max:255','unique:animes,slug'],
-            'synopsis' => ['nullable','string'],
-            'poster_path' => ['nullable','string'],
-            'status' => ['nullable', Rule::in(['ongoing','completed'])],
-            'year' => ['nullable','integer','between:1970,2100'],
-            'genres' => ['nullable','array'],
-            'genres.*' => ['string','max:50'],
-        ]);
+        try {
+            $validated = $request->validated();
 
-        $data['slug'] = $data['slug'] ?? Str::slug($data['title']);
+            $anime = Anime::create([
+                ...$validated,
+                'slug' => Str::slug($validated['title']),
+            ]);
 
-        $anime = Anime::create($data);
+            return new AnimeResource($anime->loadCount('seasons'));
 
-        return new AnimeResource($anime->loadCount('seasons'));
+        } catch (\Exception $e) {
+            Log::error('Error creating anime: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Failed to create anime',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -83,24 +87,15 @@ class AnimeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Anime $anime)
+    public function update(AnimeRequest $request, Anime $anime)
     {
-         $data = $request->validate([
-            'title' => ['string','max:255'],
-            'slug' => ['string','max:255','unique:animes,slug,'.$anime->id],
-            'synopsis' => ['string','nullable'],
-            'poster_path' => ['string','nullable'],
-            'status' => [ Rule::in(['ongoing','completed','hiatus'])],
-            'year' => ['integer','between:1970,2100','nullable'],
-            'genres' => ['array','nullable'],
-            'genres.*' => ['string','max:50'],
-        ]);
+        $validated = $request->validated();
 
-        if (!isset($data['slug']) && isset($data['title'])) {
-            $data['slug'] = Str::slug($data['title']);
+        if (!isset($validated['slug']) && isset($validated['title'])) {
+            $validated['slug'] = Str::slug($validated['title']);
         }
 
-        $anime->update($data);
+        $anime->update($validated);
 
         return new AnimeResource($anime->refresh()->loadCount('seasons'));
     }
