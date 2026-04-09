@@ -22,6 +22,8 @@ class EpisodeSourceResource extends JsonResource
             'lang' => $this->lang,
             'url' => $this->url,
             'is_primary' => (bool) $this->is_primary,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

@@ -23,8 +23,11 @@ class AnimeResource extends JsonResource
             'year' => $this->year,
             'rating' => $this->rating,
             'genres' => $this->genres,
-            'seasons_count' => $this->whenLoaded('seasons_count'),
+            // 'seasons_count' => $this->whenLoaded('seasons_count'),
+            'seasons_count' => $this->seasons_count,
+            'episodes_count' => $this->episodes_count,
             'seasons' => SeasonResource::collection($this->whenLoaded('seasons')),
+            'episodes' => EpisodeResource::collection($this->whenLoaded('episodes')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
