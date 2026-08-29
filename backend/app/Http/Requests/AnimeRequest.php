@@ -25,7 +25,7 @@ class AnimeRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'synopsis' => 'required|string',
-            'images' => 'required|string',
+            'images' => 'required|image|mimes:png,jpg,jpeg,gif|max:2048',
             'status' => ['required', Rule::in(['ongoing', 'completed'])],
             'year' => 'required|integer|between:1970,2100',
             'rating' => 'required|numeric|between:0,10',

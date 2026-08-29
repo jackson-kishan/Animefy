@@ -20,9 +20,10 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-            AnimeSeeder::class,
-            SeasonSeeder::class,
-            EpisodeSeeder::class,
+            // AnimeSeeder::class,
+            // SeasonSeeder::class,
+            // EpisodeSeeder::class,
+            GenresSeeder::class,
         ]);
     }
 }

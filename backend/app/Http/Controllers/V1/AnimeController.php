@@ -8,6 +8,7 @@ use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AnimeController extends Controller
@@ -29,7 +30,8 @@ class AnimeController extends Controller
         //     ->latest()
         //     ->paginate(20);
 
-        $animes = Anime::withCount('seasons')->latest()->paginate(20);
+        $animes = Anime::with('seasons', 'episodes')->latest()->paginate(20);
+        // $animes = Anime::withCount('episodes')->get();
 
         return AnimeResource::collection($animes);
     }
@@ -50,12 +52,28 @@ class AnimeController extends Controller
         try {
             $validated = $request->validated();
 
-            $anime = Anime::create([
-                ...$validated,
-                'slug' => Str::slug($validated['title']),
-            ]);
+            $image = $request->file('images');
+            $imageRequest = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads'), $imageRequest);
 
-            return new AnimeResource($anime->loadCount('seasons'));
+            if ($validated) {
+                $anime = Anime::create([
+                    'title' => $validated['title'],
+                    'slug' => Str::slug($validated['title']),
+                    'synopsis' => $validated['synopsis'],
+                    'images' => $imageRequest,
+                    'status' => $validated['status'],
+                    'year' => $validated['year'],
+                    'rating' => $validated['rating'],
+                    'genres' => $validated['genres'],
+                ]);
+            }
+
+            // return new AnimeResource($anime->loadCount('seasons'));
+            return response()->json([
+                'message' => "anime created",
+                "data" => $anime
+            ], 201);
 
         } catch (\Exception $e) {
             Log::error('Error creating anime: ' . $e->getMessage());

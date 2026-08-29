@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EpisodeResource;
+use App\Models\Anime;
 use App\Models\Episode;
 use App\Models\Season;
 use Illuminate\Http\Request;
@@ -13,9 +14,9 @@ class EpisodeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Season $season)
+    public function index(Anime $anime, Season $season)
     {
-        $episodes = $season->episodes()->paginate(50);
+        $episodes = $season->episodes()->latest();
         return EpisodeResource::collection($episodes);
     }
 
@@ -33,12 +34,12 @@ class EpisodeController extends Controller
     public function store(Request $request, Season $season)
     {
         $data = $request->validate([
-            'number' => ['required','integer','min:1'],
-            'title' => ['required','string','max:255'],
-            'description' => ['nullable','string'],
-            'duration_seconds' => ['nullable','integer','min:1'],
-            'published_at' => ['nullable','date'],
-            'thumbnail_path' => ['nullable','string'],
+            'number' => ['required', 'integer', 'min:1'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'duration_seconds' => ['nullable', 'integer', 'min:1'],
+            'published_at' => ['nullable', 'date'],
+            'thumbnail_path' => ['nullable', 'string'],
         ]);
 
         $episode = $season->episodes()->create($data);
@@ -50,7 +51,7 @@ class EpisodeController extends Controller
      */
     public function show(Episode $episode)
     {
-         $episode->load(['season.anime','sources','subtitles']);
+        $episode->load(['season.anime', 'sources', 'subtitles']);
         return new EpisodeResource($episode);
     }
 
@@ -68,12 +69,12 @@ class EpisodeController extends Controller
     public function update(Request $request, Episode $episode)
     {
         $data = $request->validate([
-            'number' => ['sometimes','integer','min:1'],
-            'title' => ['sometimes','string','max:255'],
-            'description' => ['sometimes','string','nullable'],
-            'duration_seconds' => ['sometimes','integer','min:1','nullable'],
-            'published_at' => ['sometimes','date','nullable'],
-            'thumbnail_path' => ['sometimes','string','nullable'],
+            'number' => ['sometimes', 'integer', 'min:1'],
+            'title' => ['sometimes', 'string', 'max:255'],
+            'description' => ['sometimes', 'string', 'nullable'],
+            'duration_seconds' => ['sometimes', 'integer', 'min:1', 'nullable'],
+            'published_at' => ['sometimes', 'date', 'nullable'],
+            'thumbnail_path' => ['sometimes', 'string', 'nullable'],
         ]);
 
         $episode->update($data);
@@ -85,7 +86,7 @@ class EpisodeController extends Controller
      */
     public function destroy(Episode $episode)
     {
-         $episode->delete();
+        $episode->delete();
         return response()->noContent();
     }
 }

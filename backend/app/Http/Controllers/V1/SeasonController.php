@@ -15,8 +15,9 @@ class SeasonController extends Controller
      */
     public function index(Anime $anime)
     {
-         $seasons = Season::where('anime_id', $anime->slug)->get()->load(['anime'])->loadCount('episodes')->paginate(50);
-        return SeasonResource::collection($seasons);
+         //$seasons = Season::where('anime_id', $anime->id)->get()->load(['anime'])->loadCount('episodes')->paginate(50);
+        $seasons = Season::where('anime_id', $anime->id)->get();
+         return SeasonResource::collection($seasons);
     }
 
     /**
